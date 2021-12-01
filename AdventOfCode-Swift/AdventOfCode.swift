@@ -126,7 +126,7 @@ extension Day {
             let elapsed = Double(end.uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000_000
             let formatter = NumberFormatter()
             formatter.minimumIntegerDigits = 1
-            formatter.maximumFractionDigits = 3
+            formatter.maximumFractionDigits = 4
             print("Elapsed time: \(formatter.string(from: NSNumber(value: elapsed))!)s")
         }
 
