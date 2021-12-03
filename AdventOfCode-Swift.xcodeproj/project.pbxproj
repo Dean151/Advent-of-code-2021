@@ -10,6 +10,7 @@
 		710D9374238541B90050BD59 /* AdventOfCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D9373238541B90050BD59 /* AdventOfCode.swift */; };
 		E938756D2757864100CEEE72 /* Day+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E938756C2757864100CEEE72 /* Day+Helper.swift */; };
 		E938756F275787A800CEEE72 /* Collection+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E938756E275787A800CEEE72 /* Collection+Helpers.swift */; };
+		E9667007275A468C00B32716 /* Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9667006275A468C00B32716 /* Maths.swift */; };
 		E981328B23849CBB0004E844 /* Day01.swift in Sources */ = {isa = PBXBuildFile; fileRef = E981328A23849CBA0004E844 /* Day01.swift */; };
 		E981328E23849CC40004E844 /* Day02.swift in Sources */ = {isa = PBXBuildFile; fileRef = E981328C23849CC40004E844 /* Day02.swift */; };
 		E981329123849CCB0004E844 /* Day03.swift in Sources */ = {isa = PBXBuildFile; fileRef = E981329023849CCB0004E844 /* Day03.swift */; };
@@ -56,6 +57,7 @@
 		71F4D8A1238FDACB00E27D74 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		E938756C2757864100CEEE72 /* Day+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+Helper.swift"; sourceTree = "<group>"; };
 		E938756E275787A800CEEE72 /* Collection+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Helpers.swift"; sourceTree = "<group>"; };
+		E9667006275A468C00B32716 /* Maths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maths.swift; sourceTree = "<group>"; };
 		E981328923849CBA0004E844 /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		E981328A23849CBA0004E844 /* Day01.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day01.swift; sourceTree = "<group>"; };
 		E981328C23849CC40004E844 /* Day02.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day02.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				E938756C2757864100CEEE72 /* Day+Helper.swift */,
 				E938756E275787A800CEEE72 /* Collection+Helpers.swift */,
+				E9667006275A468C00B32716 /* Maths.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				E938756F275787A800CEEE72 /* Collection+Helpers.swift in Sources */,
 				E98132A923849E060004E844 /* Day11.swift in Sources */,
 				E98132AC23849E100004E844 /* Day12.swift in Sources */,
+				E9667007275A468C00B32716 /* Maths.swift in Sources */,
 				E98132AF23849E1B0004E844 /* Day13.swift in Sources */,
 				E98132B823849E590004E844 /* Day15.swift in Sources */,
 				E98132B223849E2A0004E844 /* Day14.swift in Sources */,
