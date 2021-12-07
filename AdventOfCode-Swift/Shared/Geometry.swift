@@ -30,38 +30,6 @@ extension Vector2D {
     }
 }
 
-extension Vector2D {
-    func stride(to other: Vector2D, withDiagonals: Bool = false, perform: (Vector2D) -> Void) {
-        let minX = min(x, other.x)
-        let maxX = max(x, other.x)
-        let minY = min(y, other.y)
-        let maxY = max(y, other.y)
-        if (self.y == other.y) {
-            for x in minX...maxX {
-                perform(.init(x: x, y: y))
-            }
-        } else if (self.x == other.x) {
-            for y in minY...maxY {
-                perform(.init(x: x, y: y))
-            }
-        } else if withDiagonals {
-            let dimensionX = maxX - minX
-            let dimensionY = maxY - minY
-            if dimensionX == dimensionY {
-                for index in 0...dimensionX {
-                    if other.y - other.x == y - x {
-                        perform(.init(x: minX + index, y: minY + index))
-                    } else {
-                        perform(.init(x: minX + index, y: maxY - index))
-                    }
-                }
-            } else {
-                fatalError("Not supported")
-            }
-        }
-    }
-}
-
 // MARK: - Conformance
 
 extension Vector2D: Hashable, Equatable {}

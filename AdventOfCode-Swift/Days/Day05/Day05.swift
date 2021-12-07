@@ -15,41 +15,105 @@ struct Day05: Day {
 0,0 -> 8,8
 5,5 -> 8,2
 """
-        let thermalVents = try ThermalVents.from(input: testInput)
-        precondition(thermalVents.numberOfPoints(withAtLeast: 2) == 5)
-        let withDiagonals = try ThermalVents.from(input: testInput, withDiagonals: true)
-        precondition(withDiagonals.numberOfPoints(withAtLeast: 2) == 12)
+        let vents = try ThermalVent.from(input: testInput)
+        precondition(solve(for: vents) == 5)
+        precondition(solve(for: vents, ignoreDiagonals: false) == 12)
     }
 
     static func run(input: String) throws {
-        let thermalVents = try ThermalVents.from(input: input)
-        print("Number of points with at least 2 thermal vents is \(thermalVents.numberOfPoints(withAtLeast: 2)) for Day 5-1")
-        let withDiagonals = try ThermalVents.from(input: input, withDiagonals: true)
-        print("Number of points with at least 2 thermal vents is \(withDiagonals.numberOfPoints(withAtLeast: 2)) for Day 5-2")
+        let vents = try ThermalVent.from(input: input)
+        print("Number of points with at least 2 thermal vents is \(solve(for: vents)) for Day 5-1")
+        print("Number of points with at least 2 thermal vents is \(solve(for: vents, ignoreDiagonals: false)) for Day 5-2")
     }
 
-    struct ThermalVents {
-        let vents: [Vector2D: Int]
+    struct ThermalVent {
+        let start: Vector2D
+        let end: Vector2D
 
-        func numberOfPoints(withAtLeast: Int) -> Int {
-            vents.count(where: { $0.value >= withAtLeast })
+        var isHorizontal: Bool {
+            start.y == end.y
+        }
+        var isVertical: Bool {
+            start.x == end.x
+        }
+        var isDiagonal: Bool {
+            abs(end.x - start.x) == abs(end.y - start.y)
         }
 
-        static func from(input: String, withDiagonals: Bool = false) throws -> ThermalVents {
-            var vents: [Vector2D: Int] = [:]
-            for line in input.components(separatedBy: .newlines) where !line.isEmpty {
-                let components = line.components(separatedBy: " -> ")
-                assert(components.count == 2)
-                let (start, end) = (try Vector2D.from(string: components.first!), try Vector2D.from(string: components.last!))
-                start.stride(to: end, withDiagonals: withDiagonals) { vector in
-                    if let count = vents[vector] {
-                        vents[vector] = count + 1
+        var orderedX: (Int, Int) {
+            if start.x > end.x {
+                return (end.x, start.x)
+            } else {
+                return (start.x, end.x)
+            }
+        }
+        var orderedY: (Int, Int) {
+            if start.y > end.y {
+                return (end.y, start.y)
+            } else {
+                return (start.y, end.y)
+            }
+        }
+
+        init(start: Vector2D, end: Vector2D) {
+            self.start = start
+            self.end = end
+            precondition(isHorizontal || isVertical || isDiagonal)
+        }
+
+        func stride(perform: (Vector2D) -> Void) {
+            if isHorizontal {
+                let (minX, maxX) = orderedX
+                for x in minX...maxX {
+                    perform(.init(x: x, y: start.y))
+                }
+            } else if isVertical {
+                let (minY, maxY) = orderedY
+                for y in minY...maxY {
+                    perform(.init(x: start.x, y: y))
+                }
+            } else {
+                let dimension = abs(end.x - start.x)
+                let (minX, _) = orderedX
+                let (minY, maxY) = orderedY
+                for index in 0...dimension {
+                    if end.y - end.x == start.y - start.x {
+                        perform(.init(x: minX + index, y: minY + index))
                     } else {
-                        vents[vector] = 1
+                        perform(.init(x: minX + index, y: maxY - index))
                     }
                 }
             }
-            return .init(vents: vents)
         }
+
+        static func from(line: String) throws -> ThermalVent {
+            let components = line.components(separatedBy: " -> ")
+            precondition(components.count == 2)
+            let (start, end) = (try Vector2D.from(string: components.first!), try Vector2D.from(string: components.last!))
+            precondition(start != end)
+            return .init(start: start, end: end)
+        }
+
+        static func from(input: String) throws -> [ThermalVent] {
+            try input.components(separatedBy: .newlines).filter({ !$0.isEmpty }).map({ try .from(line: $0) })
+        }
+    }
+
+    static func solve(for vents: [ThermalVent], ignoreDiagonals: Bool = true) -> Int {
+        var points: Set<Vector2D> = []
+        var intersections: Set<Vector2D> = []
+        for vent in vents {
+            if vent.isDiagonal && ignoreDiagonals {
+                continue
+            }
+            vent.stride { point in
+                if points.contains(point) {
+                    intersections.insert(point)
+                } else {
+                    points.insert(point)
+                }
+            }
+        }
+        return intersections.count
     }
 }
