@@ -8,8 +8,19 @@
 
 import Foundation
 
+// MARK: - Power
+
 precedencegroup PowerPrecedence { higherThan: MultiplicationPrecedence }
 infix operator ^^ : PowerPrecedence
 func ^^ (radix: Int, power: Int) -> Int {
     return Int(pow(Double(radix), Double(power)))
+}
+
+// MARK: - Sum of integers
+
+func sumOfIntegers(upTo number: Int) -> Int {
+    if number == 0 {
+        return 0
+    }
+    return number * (number + 1) / 2
 }

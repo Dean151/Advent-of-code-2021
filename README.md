@@ -18,7 +18,7 @@ Some code may (and will!) be shared across days.
 
 Not all special cases will always be treated by the code, so it may not work for any input.
 
-Some special attention will be addressed regarding performances, I'll try to solve each day in less than 5 computing seconds!
+Some special attention will be addressed regarding performances, I'll try to solve each day in less than a computing seconds!
 
 ## Puzzle solutions so far
 
@@ -30,6 +30,7 @@ Some special attention will be addressed regarding performances, I'll try to sol
 | **4**  | 0,0058s          | 50008      | 17408         |
 | **5**  | 0,0381s          | 4745       | 18442         |
 | **6**  | 0,0002s          | 350605     | 1592778185024 |
-| **7**  | TBA              | TBA        | TBA           |
+| **7**  | 0,0043s          | 356992     | 101268110     |
+| **8**  | TBA              | TBA        | TBA           |
 
 \* : Best elapsed time of the complete solution using "Release" mode on a MacBook Pro 14in 2021 with M1 Pro 10 CPU 16 GPU and 32GB of memory
