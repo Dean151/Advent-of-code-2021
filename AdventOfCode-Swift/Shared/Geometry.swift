@@ -33,3 +33,26 @@ extension Vector2D {
 // MARK: - Conformance
 
 extension Vector2D: Hashable, Equatable {}
+
+// MARK: - Adjacents {
+
+extension Vector2D {
+    func adjacents(withDiagonals: Bool = false) -> Set<Vector2D> {
+        let adjacents: Set<Vector2D> = [
+            .init(x: x - 1, y: y),
+            .init(x: x, y: y - 1),
+            .init(x: x + 1, y: y),
+            .init(x: x, y: y + 1)
+        ]
+        if withDiagonals {
+            return adjacents.union([
+                .init(x: x - 1, y: y - 1),
+                .init(x: x - 1, y: y + 1),
+                .init(x: x + 1, y: y - 1),
+                .init(x: x + 1, y: y + 1)
+            ])
+        }
+        return adjacents
+    }
+}
+
