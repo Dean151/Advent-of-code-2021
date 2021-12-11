@@ -34,6 +34,15 @@ extension Vector2D {
 
 extension Vector2D: Hashable, Equatable {}
 
+extension Vector2D: Comparable {
+    static func < (lhs: Vector2D, rhs: Vector2D) -> Bool {
+        if lhs.y == rhs.y {
+            return lhs.x < rhs.x
+        }
+        return lhs.y < rhs.y
+    }
+}
+
 // MARK: - Adjacents {
 
 extension Vector2D {
