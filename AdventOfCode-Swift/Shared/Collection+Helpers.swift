@@ -17,3 +17,16 @@ extension Collection {
         return count
     }
 }
+
+extension Collection where Element: Equatable {
+    func contains(_ element: Element, atLeast times: Int) -> Bool {
+        var count = 0
+        for other in self {
+            count += element == other ? 1 : 0
+            if count == times {
+                return true
+            }
+        }
+        return false
+    }
+}
