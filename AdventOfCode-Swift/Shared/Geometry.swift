@@ -65,3 +65,40 @@ extension Vector2D {
     }
 }
 
+// MARK: - Print helpers
+
+extension Collection where Iterator.Element == Vector2D {
+
+    func extremumX() -> (minX: Int, maxX: Int)? {
+        let values = self.map({ $0.x })
+        guard let min = values.min(), let max = values.max() else {
+            return nil
+        }
+        return (min, max)
+    }
+    func extremumY() -> (minY: Int, maxY: Int)? {
+        let values = self.map({ $0.y })
+        guard let min = values.min(), let max = values.max() else {
+            return nil
+        }
+        return (min, max)
+    }
+    
+    func print(present: String = "X", absent: String = ".") {
+        // Get min and max to iterate on
+        guard let (minX, maxX) = extremumX(), let (minY, maxY) = extremumY() else {
+            return
+        }
+        let vectors = Set(self)
+        for y in minY...maxY {
+            for x in minX...maxX {
+                if vectors.contains(.init(x: x, y: y)) {
+                    Swift.print(present, terminator: "")
+                } else {
+                    Swift.print(absent, terminator: "")
+                }
+            }
+            Swift.print("") // \n
+        }
+    }
+}
