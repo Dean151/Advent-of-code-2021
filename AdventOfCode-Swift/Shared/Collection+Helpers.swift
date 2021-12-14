@@ -30,3 +30,16 @@ extension Collection where Element: Equatable {
         return false
     }
 }
+
+extension Dictionary where Value == Int {
+    mutating func increment(forKey key: Key, by amount: Int = 1) {
+        if let current = self[key] {
+            self[key] = current + amount
+        } else {
+            self[key] = amount
+        }
+    }
+    mutating func decrement(forKey key: Key, by amount: Int = 1) {
+        increment(forKey: key, by: -amount)
+    }
+}

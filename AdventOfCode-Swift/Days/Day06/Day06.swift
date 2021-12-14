@@ -48,11 +48,7 @@ struct Day06: Day {
             let integers = try Day06.integers(from: input, separatedBy: .punctuationCharacters)
             var fishes: [Int: Int] = [:]
             for integer in integers {
-                if let count = fishes[integer] {
-                    fishes[integer] = count + 1
-                } else {
-                    fishes[integer] = 1
-                }
+                fishes.increment(forKey: integer)
             }
             return .init(fishes: fishes)
         }
