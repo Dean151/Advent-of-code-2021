@@ -38,6 +38,7 @@ Some special attention will be addressed regarding performances, I'll try to sol
 | **12** | *1,8286s*        | 5076       | 145643        |
 | **13** | 0,0025s          | 850        | AHGCPGAU      |
 | **14** | 0,0025s          | 2937       | 3390034818249 |
-| **15** | TBA              | TBA        | TBA           |
+| **15** | *812,124s*       | 741        | 2976          |
+| **16** | TBA              | TBA        | TBA           |
 
 \* : Best elapsed time of the complete solution using "Release" mode on a MacBook Pro 14in 2021 with M1 Pro 10 CPU 16 GPU and 32GB of memory

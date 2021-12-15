@@ -3,11 +3,108 @@ import Foundation
 
 struct Day15: Day {
     static func test() throws {
-        // Use precondition or assert to tests things
+        let testInput = """
+1163751742
+1381373672
+2136511328
+3694931569
+7463417111
+1319128137
+1359912421
+3125421639
+1293138521
+2311944581
+"""
+        let cave = try Cave.parse(input: testInput)
+        let lowestTotalRisk = try cave.lowestTotalRisk()
+        precondition(lowestTotalRisk == 40)
+        let fullMapLowestTotalRisk = try cave.lowestTotalRisk(fullMap: true)
+        precondition(fullMapLowestTotalRisk == 315)
     }
 
     static func run(input: String) throws {
-        // TODO: Implement Day 15
-        print("Day 15 is not yet implemented")
+        let cave = try Cave.parse(input: input)
+        let lowestTotalRisk = try cave.lowestTotalRisk()
+        print("Lowest total risk for Day 15-1 is \(lowestTotalRisk)")
+        let fullMapLowestTotalRisk = try cave.lowestTotalRisk(fullMap: true)
+        print("Full map lowest total risk for Day 15-2 is \(fullMapLowestTotalRisk)")
+    }
+
+    struct Cave {
+        let risks: [Vector2D: Int]
+        let start = Vector2D.zero
+        let end: Vector2D
+
+        func lowestTotalRisk(fullMap: Bool = false) throws -> Int {
+            // Let's try Djikstra's
+            let end = fullMap ? Vector2D(x: ((end.x + 1) * 5) - 1, y: ((end.y + 1) * 5) - 1) : end
+            var toVisit = toVisit(between: start, and: end)
+            var distances: [Vector2D: Int] = [start: 0]
+
+            while let (current, distance) = distances.filter({ toVisit.contains($0.key) }).min(by: { $0.value < $1.value }) {
+                if current == end {
+                    return distance
+                }
+                toVisit.remove(current)
+                for neighbor in current.adjacents() {
+                    guard let risk = getRisk(at: neighbor, fullMap: fullMap) else {
+                        continue
+                    }
+                    let nextDistance = distance + risk
+                    if distances[neighbor] == nil || nextDistance < distances[neighbor].unsafelyUnwrapped {
+                        distances[neighbor] = nextDistance
+                    }
+                }
+            }
+            throw Errors.unsolvable
+        }
+
+        func toVisit(between start: Vector2D, and end: Vector2D) -> Set<Vector2D> {
+            var toVisit = Set<Vector2D>()
+            for x in start.x...end.x {
+                for y in start.y...end.y {
+                    toVisit.insert(.init(x: x, y: y))
+                }
+            }
+            return toVisit
+        }
+
+        func getRisk(at position: Vector2D, fullMap: Bool) -> Int? {
+            if !fullMap {
+                return risks[position]
+            }
+            let times = 5
+            guard let risk = risks[.init(x: position.x % (end.x + 1), y: position.y % (end.y + 1))] else {
+                return nil
+            }
+            // Add one for each time we overflow, with a limit of 5
+            let overflowX = position.x / (end.x + 1)
+            let overflowY = position.y / (end.y + 1)
+            if overflowX >= times || overflowY >= times {
+                return nil
+            }
+            var calculatedRisk = risk + overflowX + overflowY
+            while calculatedRisk > 9 {
+                calculatedRisk -= 9
+            }
+            return calculatedRisk
+        }
+
+        static func parse(input: String) throws -> Cave {
+            var risks: [Vector2D: Int] = [:]
+            var maxX: Int = 0
+            var maxY: Int = 0
+            for (y, line) in input.components(separatedBy: .newlines).enumerated() where !line.isEmpty {
+                for (x, char) in line.enumerated() {
+                    guard let risk = Int("\(char)") else {
+                        throw Errors.unparsable
+                    }
+                    risks[.init(x: x, y: y)] = risk
+                    maxX = max(maxX, x)
+                }
+                maxY = max(maxY, y)
+            }
+            return .init(risks: risks, end: .init(x: maxX, y: maxY))
+        }
     }
 }
