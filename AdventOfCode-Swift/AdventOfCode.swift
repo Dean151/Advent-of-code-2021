@@ -82,6 +82,8 @@ enum AdventOfCode {
 }
 
 protocol Day {
+    static var input: String { get }
+
     /// Required to run the day problem
     static func run(input: String) throws
 
@@ -90,7 +92,7 @@ protocol Day {
 }
 extension Day {
     /// Override to replace file input
-    static var input: String! { nil }
+    static var input: String { "" }
 }
 
 extension Day {
@@ -102,7 +104,7 @@ extension Day {
         }
 
         let input: String
-        if Self.input != nil {
+        if !Self.input.isEmpty {
             input = Self.input
         } else if let fileInput = try? Input.getFromFile("\(Self.self)") {
             input = fileInput

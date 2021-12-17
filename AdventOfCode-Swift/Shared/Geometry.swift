@@ -11,8 +11,8 @@ import Foundation
 struct Vector2D {
     static var zero = Vector2D(x: 0, y: 0)
 
-    let x: Int
-    let y: Int
+    var x: Int
+    var y: Int
 }
 
 // MARK: - Initialisations
@@ -40,6 +40,15 @@ extension Vector2D: Comparable {
             return lhs.x < rhs.x
         }
         return lhs.y < rhs.y
+    }
+}
+
+extension Vector2D {
+    static func + (lhs: Vector2D, rhs: Vector2D) -> Vector2D {
+        return Vector2D(
+            x: lhs.x + rhs.x,
+            y: lhs.y + rhs.y
+        )
     }
 }
 
