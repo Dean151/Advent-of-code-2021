@@ -36,37 +36,27 @@ struct Day15: Day {
         let end: Vector2D
 
         func lowestTotalRisk(fullMap: Bool = false) throws -> Int {
-            // Let's try Djikstra's
             let end = fullMap ? Vector2D(x: ((end.x + 1) * 5) - 1, y: ((end.y + 1) * 5) - 1) : end
-            var toVisit = toVisit(between: start, and: end)
-            var distances: [Vector2D: Int] = [start: 0]
-
-            while let (current, distance) = distances.filter({ toVisit.contains($0.key) }).min(by: { $0.value < $1.value }) {
+            var visited: [Vector2D: Int] = .init(minimumCapacity: (end.x + 1) * (end.y + 1))
+            var toVisit: [Vector2D: Int] = .init(minimumCapacity: (end.x + 1) * (end.y + 1))
+            toVisit[start] = 0
+            while let (current, distance) = toVisit.min(by: { $0.value < $1.value }) {
                 if current == end {
                     return distance
                 }
-                toVisit.remove(current)
-                for neighbor in current.adjacents() {
+                visited[current] = distance
+                toVisit.removeValue(forKey: current)
+                for neighbor in current.adjacents() where !visited.contains(where: { $0.key == neighbor }) {
                     guard let risk = getRisk(at: neighbor, fullMap: fullMap) else {
                         continue
                     }
                     let nextDistance = distance + risk
-                    if distances[neighbor] == nil || nextDistance < distances[neighbor].unsafelyUnwrapped {
-                        distances[neighbor] = nextDistance
+                    if toVisit[neighbor] == nil || nextDistance < toVisit[neighbor].unsafelyUnwrapped {
+                        toVisit[neighbor] = nextDistance
                     }
                 }
             }
             throw Errors.unsolvable
-        }
-
-        func toVisit(between start: Vector2D, and end: Vector2D) -> Set<Vector2D> {
-            var toVisit = Set<Vector2D>()
-            for x in start.x...end.x {
-                for y in start.y...end.y {
-                    toVisit.insert(.init(x: x, y: y))
-                }
-            }
-            return toVisit
         }
 
         func getRisk(at position: Vector2D, fullMap: Bool) -> Int? {

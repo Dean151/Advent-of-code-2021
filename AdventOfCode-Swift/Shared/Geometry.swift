@@ -74,6 +74,14 @@ extension Vector2D {
     }
 }
 
+// MARK: - Distance
+
+extension Vector2D {
+    func manhattanDistance(from other: Vector2D) -> Int {
+        abs(other.x - x) + abs(other.y - y)
+    }
+}
+
 // MARK: - Print helpers
 
 extension Collection where Iterator.Element == Vector2D {
